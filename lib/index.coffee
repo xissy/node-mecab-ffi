@@ -32,12 +32,14 @@ libMecab = ffi.Library 'libmecab',
 # init
 modelPtr = libMecab.mecab_model_new2 ''
 if modelPtr.isNull()
-  return throw new Error 'Failed to create a new model'
+  errorString = libMecab.mecab_strerror null
+  return throw new Error "Failed to create a new model - #{errorString}"
 
 taggerPtr = libMecab.mecab_model_new_tagger modelPtr
 if taggerPtr.isNull()
   libMecab.mecab_model_destroy modelPtr
-  return throw new Error 'Failed to create a new tagger'
+  errorString = libMecab.mecab_strerror taggerPtr
+  return throw new Error "Failed to create a new tagger - #{errorString}"
 
 
 
@@ -57,7 +59,9 @@ MeCab.parse = (inputString, callback) ->
   async.waterfall [
     (callback) ->
       libMecab.mecab_model_new_lattice.async modelPtr, (err, latticePtr) ->
-        return callback new Error 'Failed to create a new lattice'  if latticePtr.isNull()
+        if latticePtr.isNull()
+          errorString = libMecab.mecab_strerror taggerPtr
+          return callback new Error "Failed to create a new lattice - #{errorString}"
         callback err, latticePtr
   ,
     (latticePtr, callback) ->
@@ -85,7 +89,9 @@ MeCab.parse = (inputString, callback) ->
 
 MeCab.parseSync = (inputString) ->
   latticePtr = libMecab.mecab_model_new_lattice modelPtr
-  return throw new Error 'Failed to create a new lattice'  if latticePtr.isNull()
+  if latticePtr.isNull()
+    errorString = libMecab.mecab_strerror taggerPtr
+    return callback new Error "Failed to create a new lattice - #{errorString}"
 
   libMecab.mecab_lattice_set_sentence latticePtr, inputString
   libMecab.mecab_parse_lattice taggerPtr, latticePtr

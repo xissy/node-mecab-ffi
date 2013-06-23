@@ -35,9 +35,7 @@ Via [npm](https://npmjs.org):
 
 ### Parse synchronously
 ```javascript
-  mecab.parseSync('test input string', function(err, result) {
-    ...
-  });
+  result = mecab.parseSync('test input string');
 ```
 
 ## License

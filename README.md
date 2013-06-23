@@ -7,11 +7,7 @@ This module supports MacOS(surely Unix/Linux) and multi-thread safety.
 
 ## Installation
 
-node-mecab-ffi depends on [MeCab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html).
-
-To install this package in Ununtu:
-    
-    $ sudo apt-get install mecab
+node-mecab-ffi depends on [MeCab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html) v0.994 or higher.
 
 Warning: To use libmecab in MacOS, you should install the newest gcc first and compile MeCab with it. Refer to [here](http://www.ficksworkshop.com/blog/14-coding/65-installing-gcc-on-mac). Otherwise it could split errors which cannot find dictionary directory or showing abort trap when you try to parse input strings.
 

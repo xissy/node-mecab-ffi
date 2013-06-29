@@ -22,16 +22,62 @@ Via [npm](https://npmjs.org):
 
     var mecab = require('mecab-ffi');
 
-### Parse asynchronously
+### Parse a string
+
+#### Asynchronously
 ```javascript
   mecab.parse('test input string', function(err, result) {
     ...
   });
 ```
 
-### Parse synchronously
+#### Synchronously
 ```javascript
   result = mecab.parseSync('test input string');
+```
+
+### Extract nouns
+
+#### Noun list
+```javascript
+  mecab.extractNouns('test input string', function(err, result) {
+    // result = ['test', 'input', 'string']
+    ...
+  });
+```
+
+#### Noun Map
+```javascript
+  mecab.getNounMap('test input string test', function(err, result) {
+    // result = { "test":2, "input":1, "string":1 }
+    ...
+  })
+
+```
+
+#### Noun list sorted by count
+```javascript
+  mecab.getSortedNounCounts('test input string test', function(err, result) {
+    // result = [ {"noun":"test", "count":2}, {"noun":"input", "count":1}, {"noun":"string", "count":1} ]
+    ...
+  });
+```
+
+### Get Dice-Coefficient
+
+#### by two strings
+```javascript
+  mecab.getDiceCoefficientByString('test string A', 'test string B', function(err, result) {
+    // result = 2
+    ...
+  });
+```
+
+#### by two noun maps
+```javascript
+  mecab.getDiceCoefficientByNounMap(mapA, mapB, function(err, result) {
+    ...
+  });
 ```
 
 ## License

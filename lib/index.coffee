@@ -135,7 +135,7 @@ MeCab.getNounMap = (inputString, callback) ->
 
 
 
-MeCab.getNounCounts = (inputString, callback) ->
+MeCab.getSortedNounCounts = (inputString, callback) ->
   MeCab.getNounMap inputString, (err, nounMap) ->
     return callback err  if err?
 

@@ -20,7 +20,7 @@ Via [npm](https://npmjs.org):
 
 ### Load in the module
 
-  var mecab = require('mecab-ffi');
+    var mecab = require('mecab-ffi');
 
 ### Parse asynchronously
 ```javascript

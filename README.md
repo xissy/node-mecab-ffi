@@ -48,7 +48,7 @@ Via [npm](https://npmjs.org):
 
 #### Noun Map
 ```javascript
-  mecab.getNounMap('test input string test', function(err, result) {
+  mecab.extractNounMap('test input string test', function(err, result) {
     // result = { "test":2, "input":1, "string":1 }
     ...
   })
@@ -57,7 +57,7 @@ Via [npm](https://npmjs.org):
 
 #### Noun list sorted by count
 ```javascript
-  mecab.getSortedNounCounts('test input string test', function(err, result) {
+  mecab.extractSortedNounCounts('test input string test', function(err, result) {
     // result = [ {"noun":"test", "count":2}, {"noun":"input", "count":1}, {"noun":"string", "count":1} ]
     ...
   });

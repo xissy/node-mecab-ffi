@@ -122,7 +122,7 @@ MeCab.extractNouns = (inputString, callback) ->
 
 
 
-MeCab.getNounMap = (inputString, callback) ->
+MeCab.extractNounMap = (inputString, callback) ->
   MeCab.extractNouns inputString, (err, nouns) ->
     return callback err  if err?
 
@@ -135,8 +135,8 @@ MeCab.getNounMap = (inputString, callback) ->
 
 
 
-MeCab.getSortedNounCounts = (inputString, callback) ->
-  MeCab.getNounMap inputString, (err, nounMap) ->
+MeCab.extractSortedNounCounts = (inputString, callback) ->
+  MeCab.extractNounMap inputString, (err, nounMap) ->
     return callback err  if err?
 
     nounCounts = []
@@ -167,9 +167,9 @@ MeCab.getDiceCoefficientByNounMap = (nounMapA, nounMapB, callback) ->
 MeCab.getDiceCoefficientByString = (inputStringA, inputStringB, callback) ->
   async.parallel
     nounMapA: (callback) ->
-      MeCab.getNounMap inputStringA, callback
+      MeCab.extractNounMap inputStringA, callback
     nounMapB: (callback) ->
-      MeCab.getNounMap inputStringB, callback
+      MeCab.extractNounMap inputStringB, callback
   ,
     (err, result) ->
       MeCab.getDiceCoefficientByNounMap result.nounMapA, result.nounMapB, callback

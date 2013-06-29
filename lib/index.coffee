@@ -102,4 +102,78 @@ MeCab.parseSync = (inputString) ->
 
 
 
+MeCab.extractNouns = (inputString, callback) ->
+  MeCab.parse inputString, (err, morphemes) ->
+    return callback err  if err?
+
+    nouns = []
+    for morpheme, index in morphemes
+      if morpheme[1] is 'NN'
+        
+        if index > 0
+          prevMorpheme = morphemes[index - 1]
+          if prevMorpheme[1] is 'SN'
+            nouns.push prevMorpheme[0] + morpheme[0]
+            continue
+        
+        nouns.push morpheme[0]  if morpheme[1] is 'NN'
+
+    callback null, nouns
+
+
+
+MeCab.getNounMap = (inputString, callback) ->
+  MeCab.extractNouns inputString, (err, nouns) ->
+    return callback err  if err?
+
+    nounMap = {}
+    for noun in nouns
+      nounMap[noun] = 0  if not nounMap[noun]?
+      nounMap[noun]++
+
+    callback null, nounMap
+
+
+
+MeCab.getNounCounts = (inputString, callback) ->
+  MeCab.getNounMap inputString, (err, nounMap) ->
+    return callback err  if err?
+
+    nounCounts = []
+    for noun, count of nounMap
+      nounCounts.push
+        noun: noun
+        count: count
+
+    nounCounts.sort (a, b) ->
+      b.count - a.count
+
+    callback null, nounCounts
+
+
+
+MeCab.getDiceCoefficientByNounMap = (nounMapA, nounMapB, callback) ->
+  score = 0
+
+  for noun, countA of nounMapA
+    countB = 0
+    countB = nounMapB[noun]  if nounMapB[noun]?
+    score += countA * countB
+
+  callback null, score
+
+
+
+MeCab.getDiceCoefficientByString = (inputStringA, inputStringB, callback) ->
+  async.parallel
+    nounMapA: (callback) ->
+      MeCab.getNounMap inputStringA, callback
+    nounMapB: (callback) ->
+      MeCab.getNounMap inputStringB, callback
+  ,
+    (err, result) ->
+      MeCab.getDiceCoefficientByNounMap result.nounMapA, result.nounMapB, callback
+
+
+
 module.exports = MeCab

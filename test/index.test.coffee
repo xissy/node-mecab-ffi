@@ -32,3 +32,14 @@ describe 'mecab', ->
         (err) ->
           should.not.exist err
           done()
+
+
+  describe 'getDiceCoefficientByString(...)', ->
+    it 'should be done', (done) ->
+      strA = '한국이 국제축구연맹(FIFA) 터키 20세 이하 월드컵 16강에 진출했다.'
+      strB = '국제축구연맹(FIFA) 20세 이하 월드컵에 나선 어린 태극전사들이 16강 직행티켓을 놓쳤다.'
+      
+      mecab.getDiceCoefficientByString strA, strB, (err, result) ->
+        should.not.exist err
+        should.exist result
+        done()

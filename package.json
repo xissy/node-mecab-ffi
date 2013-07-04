@@ -1,6 +1,6 @@
 {
   "name": "mecab-ffi",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": {
     "name": "Taeho Kim",
     "email": "xissysnd@gmail.com"
@@ -19,7 +19,7 @@
     "url": "https://github.com/xissy/node-mecab-ffi.git"
   },
   "bugs": {
-    "url": "http://github.com/xissy/node-mecab-ffi/issues"
+    "url": "https://github.com/xissy/node-mecab-ffi/issues"
   },
   "devDependencies": {
     "should": ">= 1.0.0",

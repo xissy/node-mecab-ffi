@@ -112,9 +112,13 @@ MeCab.extractNouns = (inputString, callback) ->
         
         if index > 0
           prevMorpheme = morphemes[index - 1]
-          if prevMorpheme[1] is 'SN'
-            nouns.push prevMorpheme[0] + morpheme[0]
-            continue
+          if prevMorpheme[1] is 'SN' or prevMorpheme[1] is 'NN' or prevMorpheme[1] is 'VA+ETM'
+            nouns.push "#{prevMorpheme[0]} #{morpheme[0]}"
+
+          if index > 1
+            prevPrevMorpheme = morphemes[index - 2]
+            if prevPrevMorpheme[1] is 'VA' and prevMorpheme[1] is 'ETM'
+              nouns.push "#{prevPrevMorpheme[0]}#{prevMorpheme[0]} #{morpheme[0]}"
         
         nouns.push morpheme[0]  if morpheme[1] is 'NN'
 

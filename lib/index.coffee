@@ -126,6 +126,47 @@ MeCab.extractNouns = (inputString, callback) ->
 
 
 
+MeCab.extractKeywords = (inputString, options, callback) ->
+  if typeof options is 'function'
+    callback = options
+    options = {}
+  
+  options = {}  if not options?
+  options.n = 3  if not options.n?
+
+  MeCab.parse inputString, (err, morphemes) ->
+    return callback err  if err?
+
+    keywords = []
+    nouns = []
+    tempSN = ''
+
+    for morpheme in morphemes
+      if morpheme[1] is 'SN'
+        tempSN = morpheme[0]
+
+      else if morpheme[1] is 'NN' and morpheme[0].length > 1 and morpheme[4] is '*'
+        nouns.push "#{tempSN}#{morpheme[0]}"
+        tempSN = ''
+
+      else
+        if nouns.length > 1
+          keywords.push nouns.join ' '
+        nouns = []
+        tempSN = ''
+
+    uniqueKeywordMap = {}
+    uniqueKeywordMap[keyword] = keyword for keyword in keywords
+    uniqueKeywords = []
+    for k, v of uniqueKeywordMap
+      uniqueKeywords.push v
+    uniqueKeywords = uniqueKeywords[0...options.n]
+    uniqueKeywords.sort (a, b) -> b.length - a.length
+
+    callback null, uniqueKeywords
+
+
+
 MeCab.extractNounMap = (inputString, callback) ->
   MeCab.extractNouns inputString, (err, nouns) ->
     return callback err  if err?

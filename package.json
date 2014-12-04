@@ -1,13 +1,13 @@
 {
   "name": "mecab-ffi",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "author": {
     "name": "Taeho Kim",
     "email": "xissysnd@gmail.com"
   },
   "main": "./index",
   "dependencies": {
-    "coffee-script": ">= 1.7.1",
+    "coffee-script": ">= 1.8.0",
     "async": ">= 0.2.9",
     "ffi": ">= 1.2.5",
     "ref": ">= 0.1.3"

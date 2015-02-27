@@ -20,11 +20,9 @@ $ npm install mecab-ffi
 
 Via git directly:
 ```
-npm install git+https://github.com/wodory/node-mecab-ffi.git
+$ npm install git+https://github.com/wodory/node-mecab-ffi.git
 ```
 
-$ npm install mecab-ffi
-```  
 ## Quick Start
 
 ### Load in the module

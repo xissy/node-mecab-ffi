@@ -27,7 +27,9 @@ $ npm install git+https://github.com/wodory/node-mecab-ffi.git
 
 ### Load in the module
 
+```
 var mecab = require('mecab-ffi');
+```
 
 ### Parse a string
 

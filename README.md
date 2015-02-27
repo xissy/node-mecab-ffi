@@ -169,19 +169,21 @@ mecab.getDiceCoefficientByString(string1, string2, function(err, result) {
 You muse use three Async functions to make two maps and to compare. Without questions, you can use callback as below:
 ```javascript
 var string1 = "황사바람 부는 거리에서 전경들이 점심을 먹는다.",
-  string2 = "강풍이 불고 거리에서 전경이 밥을 먹는다.",
-  shareData = {};
+    string2 = "강풍이 불고 거리에서 전경이 밥을 먹는다.",
+    shareData = {};
 
 mecab.extractNounMap(string1, function (err, mapA) {
-  shareData["mapA"] = mapA;
-  mecab.extractNounMap(string2, function (err, mapB) {
-	shareData["mapB"] = mapB;
-	mecab.getDiceCoefficientByNounMap(shareData.mapA, shareData.mapB, function(err, result) {
-	  console.log (shareData);
-	  console.log (result);
-	});
-  }); 
+    shareData["mapA"] = mapA;
+    mecab.extractNounMap(string2, function (err, mapB) {
+        shareData["mapB"] = mapB;
+        mecab.getDiceCoefficientByNounMap(shareData.mapA, shareData.mapB, function(err, result) {
+            console.log (result);
+	   });
+    }); 
 });
+
+//Result
+2
 
 ```
 You, however, can use Promise patter, new ara of javascript with ES6 or promise library like bluebird. 
@@ -192,18 +194,21 @@ var mecab = require('mecab-ffi'),
   join = Promise.join;
 
 var fAsyncExtractNounMap = Promise.promisify(mecab.extractNounMap),
-  fAsyncgetDiceCoefficientByNounMap = Promise.promisify(mecab.getDiceCoefficientByNounMap),
-  string1 = "황사바람 부는 거리에서 전경들이 점심을 먹는다.",
-  string2 = "강풍이 불고 거리에서 전경이 밥을 먹는다.";
+    fAsyncgetDiceCoefficientByNounMap = Promise.promisify(mecab.getDiceCoefficientByNounMap),
+    string1 = "황사바람 부는 거리에서 전경들이 점심을 먹는다.",
+    string2 = "강풍이 불고 거리에서 전경이 밥을 먹는다.";
 
 var fMap1 = fAsyncExtractNounMap(string1),
-  fMap2 = fAsyncExtractNounMap(string2);
+    fMap2 = fAsyncExtractNounMap(string2);
 
 join (fMap1, fMap2, function (map1, map2) {
-  return fAsyncgetDiceCoefficientByNounMap (map1, map2);
+    return fAsyncgetDiceCoefficientByNounMap (map1, map2);
 }).then(function (result) {
-  console.log (result)
+    console.log (result)
 })
+
+//Result
+2
 ```
 
 

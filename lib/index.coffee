@@ -108,11 +108,10 @@ MeCab.extractNouns = (inputString, callback) ->
 
     nouns = []
     for morpheme, index in morphemes
-      if morpheme[1] is 'NN'
-        
+      if morpheme[1] is 'NNG' or morpheme[1] is 'NNP' or morpheme[1] is 'NNB' or morpheme[1] is 'NR' or morpheme[1] is 'NP'
         if index > 0
           prevMorpheme = morphemes[index - 1]
-          if prevMorpheme[1] is 'SN' or prevMorpheme[1] is 'NN' or prevMorpheme[1] is 'VA+ETM'
+          if prevMorpheme[1] is 'SN' or ( prevMorpheme[1] is 'NNG' or prevMorpheme[1] is 'NNP' or prevMorpheme[1] is 'NNB' or prevMorpheme[1] is 'NR' or prevMorpheme[1] is 'NP' ) or prevMorpheme[1] is 'VA+ETM'
             nouns.push "#{prevMorpheme[0]} #{morpheme[0]}"
 
           if index > 1
@@ -120,9 +119,10 @@ MeCab.extractNouns = (inputString, callback) ->
             if prevPrevMorpheme[1] is 'VA' and prevMorpheme[1] is 'ETM'
               nouns.push "#{prevPrevMorpheme[0]}#{prevMorpheme[0]} #{morpheme[0]}"
         
-        nouns.push morpheme[0]  if morpheme[1] is 'NN'
+        nouns.push morpheme[0]  if morpheme[1] is 'NNG' or morpheme[1] is 'NNP' or morpheme[1] is 'NNB' or morpheme[1] is 'NR' or morpheme[1] is 'NP'
 
     callback null, nouns
+
 
 
 
@@ -137,7 +137,7 @@ MeCab.extractKeywords = (inputString, options, callback) ->
   MeCab.parse inputString, (err, morphemes) ->
     return callback err  if err?
 
-    keywords = []
+    keywords = [] 
     nouns = []
     tempSN = ''
 
@@ -145,7 +145,7 @@ MeCab.extractKeywords = (inputString, options, callback) ->
       if morpheme[1] is 'SN'
         tempSN = morpheme[0]
 
-      else if morpheme[1] is 'NN' and morpheme[0].length > 1 and morpheme[4] is '*'
+      else if ( prevMorpheme[1] is 'NNG' or prevMorpheme[1] is 'NNP' or prevMorpheme[1] is 'NNB' or prevMorpheme[1] is 'NR' or prevMorpheme[1] is 'NP' ) and morpheme[0].length > 1 and morpheme[4] is '*'
         nouns.push "#{tempSN}#{morpheme[0]}"
         tempSN = ''
 

@@ -145,7 +145,7 @@ MeCab.extractKeywords = (inputString, options, callback) ->
       if morpheme[1] is 'SN'
         tempSN = morpheme[0]
 
-      else if ( prevMorpheme[1] is 'NNG' or prevMorpheme[1] is 'NNP' or prevMorpheme[1] is 'NNB' or prevMorpheme[1] is 'NR' or prevMorpheme[1] is 'NP' ) and morpheme[0].length > 1 and morpheme[4] is '*'
+      else if ( morpheme[1] is 'NNG' or morpheme[1] is 'NNP' or morpheme[1] is 'NNB' or morpheme[1] is 'NR' or morpheme[1] is 'NP' ) and morpheme[0].length > 1 and morpheme[2] is '*'
         nouns.push "#{tempSN}#{morpheme[0]}"
         tempSN = ''
 

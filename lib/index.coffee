@@ -50,7 +50,7 @@ parseMeCabOutputString = (outputString) ->
   result = []
   outputString.split('\n').forEach (line) ->
     result.push line.replace('\t', ',').split(',')
-  
+
   result[0...-2]
 
 
@@ -65,7 +65,7 @@ MeCab.parse = (inputString, callback) ->
         callback err, latticePtr
   ,
     (latticePtr, callback) ->
-      libMecab.mecab_lattice_set_sentence.async latticePtr, inputString, (err) -> 
+      libMecab.mecab_lattice_set_sentence.async latticePtr, inputString, (err) ->
         callback err, latticePtr
   ,
     (latticePtr, callback) ->
@@ -82,7 +82,7 @@ MeCab.parse = (inputString, callback) ->
 
   ], (err, outputString) ->
     return callback err  if err?
-    
+
     callback null, parseMeCabOutputString outputString
 
 
@@ -118,7 +118,7 @@ MeCab.extractNouns = (inputString, callback) ->
             prevPrevMorpheme = morphemes[index - 2]
             if prevPrevMorpheme[1] is 'VA' and prevMorpheme[1] is 'ETM'
               nouns.push "#{prevPrevMorpheme[0]}#{prevMorpheme[0]} #{morpheme[0]}"
-        
+
         nouns.push morpheme[0]  if morpheme[1] is 'NNG' or morpheme[1] is 'NNP' or morpheme[1] is 'NP'
 
     callback null, nouns
@@ -130,14 +130,14 @@ MeCab.extractKeywords = (inputString, options, callback) ->
   if typeof options is 'function'
     callback = options
     options = {}
-  
+
   options = {}  if not options?
   options.n = 3  if not options.n?
 
   MeCab.parse inputString, (err, morphemes) ->
     return callback err  if err?
 
-    keywords = [] 
+    keywords = []
     nouns = []
     tempSN = ''
 
@@ -145,7 +145,7 @@ MeCab.extractKeywords = (inputString, options, callback) ->
       if morpheme[1] is 'SN'
         tempSN = morpheme[0]
 
-      else if ( prevMorpheme[1] is 'NNG' or prevMorpheme[1] is 'NNP' or prevMorpheme[1] is 'NP' ) and morpheme[0].length > 1 and morpheme[4] is '*'
+      else if ( morpheme[1] is 'NNG' or morpheme[1] is 'NNP' or morpheme[1] is 'NP' ) and morpheme[0].length > 1 and morpheme[4] is '*'
         nouns.push "#{tempSN}#{morpheme[0]}"
         tempSN = ''
 
